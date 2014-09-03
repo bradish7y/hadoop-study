@@ -57,7 +57,11 @@ public class JobOutputCodec extends Configured implements Tool {
 		conf.setBoolean("mapred.output.compress", true);
 		conf.setClass("mapred.output.compression.codec", GzipCodec.class,
 				CompressionCodec.class);
-
+		// FileOutputFormat.setOutputCompressorClass(job, codecClass);
+		//
+		// mapred.compress.map.output true
+		// mapred.map.output.compression.codec
+		//
 		Job job = new Job(conf, "job output compression");
 
 		job.setJarByClass(JobOutputCodec.class);
