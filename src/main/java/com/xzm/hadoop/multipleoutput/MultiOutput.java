@@ -91,6 +91,7 @@ public class MultiOutput extends Configured implements Tool {
 
 		LazyOutputFormat.setOutputFormatClass(job, TextOutputFormat.class);
 		job.setNumReduceTasks(0);
+
 		return job.waitForCompletion(true) ? 0 : -1;
 	}
 }

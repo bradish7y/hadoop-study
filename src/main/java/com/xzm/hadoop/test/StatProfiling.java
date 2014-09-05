@@ -80,6 +80,9 @@ public class StatProfiling extends Configured implements Tool {
 
 	public static class Reduce extends Reducer<Text, IntWritable, Text, IntWritable> {
 
+		// reuse
+		private IntWritable counts = new IntWritable();
+
 		public void reduce(Text key, Iterable<IntWritable> values, Context context)
 				throws IOException, InterruptedException {
 			int sum = 0;
@@ -87,7 +90,8 @@ public class StatProfiling extends Configured implements Tool {
 			for (IntWritable val : values) {
 				sum += val.get();
 			}
-			context.write(key, new IntWritable(sum));
+			counts.set(sum);
+			context.write(key, counts);
 		}
 
 	}
