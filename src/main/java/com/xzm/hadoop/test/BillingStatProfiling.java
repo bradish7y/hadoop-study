@@ -15,7 +15,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class StatProfiling extends Configured implements Tool {
+public class BillingStatProfiling extends Configured implements Tool {
 	public static class Map extends Mapper<LongWritable, Text, Text, IntWritable> {
 
 		enum Profiling {
@@ -29,14 +29,14 @@ public class StatProfiling extends Configured implements Tool {
 				InterruptedException {
 
 			String line = value.toString();
-			int index = line.toString().indexOf("Call rb service cost");
+			int index = line.lastIndexOf("返回统一接入,耗时");
 			if (index == -1) {
 				return;
 			}
 
-			String[] token = line.split(":");
-			int endIndex = token[3].indexOf("ms");
-			int costTime = Integer.valueOf(token[3].substring(0, endIndex).trim());
+			String s[] = line.split("返回统一接入,耗时");
+			int endIndex = s[1].indexOf("ms");
+			int costTime = Integer.valueOf(s[1].substring(0, endIndex).trim());
 			if (costTime < 10) {
 				word.set(Profiling.LESS10MS.toString());
 			} else if (costTime >= 10 && costTime < 20) {
@@ -99,7 +99,7 @@ public class StatProfiling extends Configured implements Tool {
 	public static void main(String[] args) throws IOException, ClassNotFoundException,
 			InterruptedException {
 		try {
-			ToolRunner.run(new StatProfiling(), args);
+			ToolRunner.run(new BillingStatProfiling(), args);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -109,8 +109,8 @@ public class StatProfiling extends Configured implements Tool {
 	public int run(String[] args) throws Exception {
 		// GenericOptionsParser go = new GenericOptionsParser(conf, args);
 
-		Job job = new Job(getConf(), "StatProfiling");
-		job.setJarByClass(StatProfiling.class);
+		Job job = new Job(getConf(), "BillingStatProfiling");
+		job.setJarByClass(BillingStatProfiling.class);
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
