@@ -75,6 +75,7 @@ public class WordCount extends Configured implements Tool {
 
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
+
 		return job.waitForCompletion(true) ? 0 : -1;
 	}
 
