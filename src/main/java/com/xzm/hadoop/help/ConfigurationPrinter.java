@@ -15,7 +15,6 @@ public class ConfigurationPrinter extends Configured implements Tool {
 		Configuration.addDefaultResource("hdfs-default.xml");
 	}
 
-	@Override
 	public int run(String[] args) throws Exception {
 
 		Configuration conf = getConf();

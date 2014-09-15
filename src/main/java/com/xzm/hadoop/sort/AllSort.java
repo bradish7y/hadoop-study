@@ -80,8 +80,9 @@ public class AllSort extends Configured implements Tool {
 		 * use TotalOrderPartitioner.setPartitionFile(job.getConfiguration(),
 		 * partitionFile);
 		 * not use
+		 * TotalOrderPartitioner.setPartitionFile(conf, partitionFile);
 		 */
-		TotalOrderPartitioner.setPartitionFile(conf, partitionFile);
+
 		TotalOrderPartitioner.setPartitionFile(job.getConfiguration(), partitionFile);
 		InputSampler.writePartitionFile(job, sampler);
 
